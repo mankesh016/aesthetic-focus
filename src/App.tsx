@@ -1,10 +1,22 @@
+import { useState } from "react";
 import bgImage from "./assets/city-dusk.png";
 import { UI_TEXT } from "./constants";
+import { SpotifyPlayer } from "./components/SpotifyPlayer";
+
+interface SettingsData {
+  spotifyUrl: string;
+}
+
+const DEFAULT_SETTINGS: SettingsData = {
+  spotifyUrl: "https://open.spotify.com/playlist/4Zjli1P13J5mmSCD5iKAXK",
+};
 
 function App() {
+  const [settings, setsettings] = useState<SettingsData>(DEFAULT_SETTINGS);
+
   return (
     <div
-      className="w-screen h-screen flex justify-center items-center bg-cover bg-center"
+      className="relative w-screen h-screen flex justify-center items-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="absolute top-6 left-6 z-10 text-white select-none">
@@ -18,6 +30,9 @@ function App() {
 
       {/* timer block */}
       <div className="font-main z-10 text-6xl text-white">25:00</div>
+
+      {/* spotify block */}
+      <SpotifyPlayer playlistUrl={settings.spotifyUrl} />
     </div>
   );
 }
