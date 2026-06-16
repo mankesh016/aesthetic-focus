@@ -2,6 +2,7 @@ import { useState } from "react";
 import bgImage from "./assets/city-dusk.png";
 import { UI_TEXT } from "./constants";
 import { SpotifyPlayer } from "./components/SpotifyPlayer";
+import { AmbientMixer } from "./components/AmbientMixer";
 
 interface SettingsData {
   spotifyUrl: string;
@@ -33,6 +34,9 @@ function App() {
 
       {/* spotify block */}
       <SpotifyPlayer playlistUrl={settings.spotifyUrl} />
+
+      {/* ambient mixer */}
+      <AmbientMixer />
     </div>
   );
 }
