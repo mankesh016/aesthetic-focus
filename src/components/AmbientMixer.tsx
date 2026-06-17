@@ -1,9 +1,10 @@
-import { Volume2, VolumeX } from "lucide-react";
+import { CloudRain, Flame, Trees, Volume2, VolumeX, Waves } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface AmbientSound {
   id: string;
   name: string;
+  icon: React.ReactNode;
   url: string;
 }
 
@@ -11,21 +12,25 @@ const SOUNDS: AmbientSound[] = [
   {
     id: "rain",
     name: "Rain",
+    icon: <CloudRain size={18} />,
     url: "https://raw.githubusercontent.com/karthiknvd/noctune/main/sounds/rain.mp3",
   },
   {
     id: "forest",
     name: "Forest Birds",
+    icon: <Trees size={18} />,
     url: "https://raw.githubusercontent.com/karthiknvd/noctune/main/sounds/forest.mp3",
   },
   {
     id: "campfire",
     name: "Campfire",
+    icon: <Flame size={18} />,
     url: "https://raw.githubusercontent.com/karthiknvd/noctune/main/sounds/campfire.mp3",
   },
   {
     id: "river",
     name: "River Flow",
+    icon: <Waves size={18} />,
     url: "https://raw.githubusercontent.com/karthiknvd/noctune/main/sounds/river.mp3",
   },
 ];
@@ -78,6 +83,19 @@ export const AmbientMixer: React.FC = () => {
 
   const isAnyPlaying = Object.values(volumes).some((v) => v > 0);
 
+  const muteAll = () => {
+    const newVolumes = { ...volumes };
+    Object.keys(newVolumes).forEach((key) => {
+      newVolumes[key] = 0;
+      const audio = audioRefs.current[key];
+      if (audio) {
+        audio.volume = 0;
+        audio.pause();
+      }
+    });
+    setVolumes(newVolumes);
+  };
+
   return (
     <div className="fixed bottom-6 right-6 z-10 flex flex-col items-end">
       {isOpen && (
@@ -86,26 +104,41 @@ export const AmbientMixer: React.FC = () => {
             <span className="text-[15px] font-semibold tracking-wider">
               Ambient Sounds
             </span>
+            {isAnyPlaying && (
+              <button
+                onClick={muteAll}
+                className="bg-transparent border-none text-white/80 cursor-pointer text-[11px] flex items-center gap-1 hover:text-white"
+              >
+                <VolumeX size={12} /> mute all
+              </button>
+            )}
           </div>
 
           <div className="flex flex-col gap-3">
             {SOUNDS.map((sound) => (
-              <div key={sound.id} className="flex flex-col gap-2">
-                <div className="flex justify-between text-[12px] text-white">
-                  <span className="text-sm">{sound.name}</span>
-                  <span>{Math.round(volumes[sound.id] * 100)}%</span>
+              <div key={sound.id} className="flex items-center gap-3">
+                <div
+                  className={`w-6 flex justify-center ${volumes[sound.id] > 0 ? "text-white/80" : "text-white/40"}`}
+                >
+                  {sound.icon}
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volumes[sound.id]}
-                  onChange={(e) =>
-                    handleVolumeChange(sound.id, parseFloat(e.target.value))
-                  }
-                  className="glass-range"
-                />
+                <div key={sound.id} className="flex-grow flex flex-col gap-2">
+                  <div className="flex justify-between text-[12px] text-white/90">
+                    <span className="text-sm">{sound.name}</span>
+                    <span>{Math.round(volumes[sound.id] * 100)}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volumes[sound.id]}
+                    onChange={(e) =>
+                      handleVolumeChange(sound.id, parseFloat(e.target.value))
+                    }
+                    className="glass-range"
+                  />
+                </div>
               </div>
             ))}
           </div>
