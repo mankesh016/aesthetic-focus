@@ -3,17 +3,20 @@ import bgImage from "./assets/city-dusk.png";
 import { UI_TEXT } from "./constants";
 import { SpotifyPlayer } from "./components/SpotifyPlayer";
 import { AmbientMixer } from "./components/AmbientMixer";
-
-interface SettingsData {
-  spotifyUrl: string;
-}
+import type { SettingsData } from "./types";
+import { Timer } from "./components/Timer";
 
 const DEFAULT_SETTINGS: SettingsData = {
+  pomodoroTime: 25,
+  shortBreakTime: 5,
+  longBreakTime: 15,
+  autoStartBreaks: false,
+  autoStartPomodoros: false,
   spotifyUrl: "https://open.spotify.com/playlist/4Zjli1P13J5mmSCD5iKAXK",
 };
 
 function App() {
-  const [settings, setsettings] = useState<SettingsData>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<SettingsData>(DEFAULT_SETTINGS);
 
   return (
     <div
@@ -30,7 +33,7 @@ function App() {
       </div>
 
       {/* timer block */}
-      <div className="font-main z-10 text-6xl text-white">25:00</div>
+      <Timer settings={settings} />
 
       {/* spotify block */}
       <SpotifyPlayer playlistUrl={settings.spotifyUrl} />
