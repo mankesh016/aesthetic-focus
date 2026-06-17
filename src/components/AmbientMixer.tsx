@@ -81,21 +81,20 @@ export const AmbientMixer: React.FC = () => {
   return (
     <div className="fixed bottom-6 right-6 z-10 flex flex-col items-end">
       {isOpen && (
-        <div className="bg-gray-200 text-black w-[260px] p-5 flex flex-col gap-4">
+        <div className="glass-panel w-[260px] p-5 mb-2 flex flex-col gap-4">
           <div className="flex justify-between items-center mb-1">
             <span className="text-[15px] font-semibold tracking-wider">
-              ambient sounds
+              Ambient Sounds
             </span>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             {SOUNDS.map((sound) => (
-              <div key={sound.id} className="flex flex-col">
-                <div className="flex justify-between">
+              <div key={sound.id} className="flex flex-col gap-2">
+                <div className="flex justify-between text-[12px] text-white">
                   <span className="text-sm">{sound.name}</span>
-                  <span>{Math.round(volumes[sound.id] * 100)}</span>
+                  <span>{Math.round(volumes[sound.id] * 100)}%</span>
                 </div>
-
                 <input
                   type="range"
                   min="0"
@@ -105,6 +104,7 @@ export const AmbientMixer: React.FC = () => {
                   onChange={(e) =>
                     handleVolumeChange(sound.id, parseFloat(e.target.value))
                   }
+                  className="glass-range"
                 />
               </div>
             ))}
@@ -115,7 +115,7 @@ export const AmbientMixer: React.FC = () => {
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center text-white cursor-pointer bg-gray-500 p-2 rounded-full"
+        className="glass-panel border border-white/20 flex items-center justify-center text-white cursor-pointer w-[50px] h-[50px] rounded-full"
         title="Ambient Mixer"
       >
         {isAnyPlaying ? (
