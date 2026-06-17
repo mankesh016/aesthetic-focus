@@ -19,10 +19,14 @@ function App() {
   const [settings, setSettings] = useState<SettingsData>(DEFAULT_SETTINGS);
 
   return (
-    <div
-      className="relative w-screen h-screen flex justify-center items-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+    <div className="relative w-screen h-screen flex justify-center items-center bg-cover bg-center">
+      <div
+        className="bg-container z-[-2]"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      />
+      <div className="bg-overlay z-[-1]" />
+
+      {/* Heading block */}
       <div className="absolute top-6 left-6 z-10 text-white select-none">
         <h1 className="font-hand text-3xl font-semibold leading-none tracking-[1px]">
           {UI_TEXT.APP_TITLE}
