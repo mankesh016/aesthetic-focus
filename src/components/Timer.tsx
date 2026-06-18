@@ -75,7 +75,7 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center animate-fade-in">
       {/* Tabs */}
       <div className="flex justify-around items-center gap-3 bg-black/20 p-2 rounded-full text-white/80">
         <button

@@ -34,7 +34,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-md">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-md animate-fade-in">
       <div className="glass-panel w-135 max-w-[90%] max-h-[90vh] overflow-y-auto p-8 border border-white/20 flex flex-col gap-6 relative">
         {/* Header */}
         <div className="flex justify-between items-center">
