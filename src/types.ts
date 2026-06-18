@@ -4,5 +4,6 @@ export interface SettingsData {
   longBreakTime: number;
   autoStartBreaks: boolean;
   autoStartPomodoros: boolean;
+  backgroundId: string;
   spotifyUrl: string;
 }

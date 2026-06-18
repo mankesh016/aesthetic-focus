@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import bgImage from "./assets/city-dusk.png";
 import { UI_TEXT } from "./constants";
 import { SpotifyPlayer } from "./components/SpotifyPlayer";
 import { AmbientMixer } from "./components/AmbientMixer";
@@ -7,12 +6,17 @@ import type { SettingsData } from "./types";
 import { Timer } from "./components/Timer";
 import { SettingsModal } from "./components/SettingsModal";
 
+import cityDusk from "./assets/city-dusk.png";
+import cozyRain from "./assets/cozy-rain.png";
+import greenForest from "./assets/green-forest.png";
+
 const DEFAULT_SETTINGS: SettingsData = {
   pomodoroTime: 25,
   shortBreakTime: 5,
   longBreakTime: 15,
   autoStartBreaks: false,
   autoStartPomodoros: false,
+  backgroundId: "city-dusk",
   spotifyUrl: "https://open.spotify.com/playlist/4Zjli1P13J5mmSCD5iKAXK",
 };
 
@@ -39,11 +43,25 @@ function App() {
     localStorage.setItem("pomodoro-settings-v1", JSON.stringify(newSettings));
   };
 
+  // Get background image mapping
+  const getBackgroundImage = () => {
+    switch (settings.backgroundId) {
+      case "city-dusk":
+        return cityDusk;
+      case "cozy-rain":
+        return cozyRain;
+      case "green-forest":
+        return greenForest;
+      default:
+        return cityDusk;
+    }
+  };
+
   return (
     <div className="relative w-screen h-screen flex justify-center items-center bg-cover bg-center">
       <div
         className="bg-container z-[-2]"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{ backgroundImage: `url(${getBackgroundImage()})` }}
       />
       <div className="bg-overlay z-[-1]" />
 

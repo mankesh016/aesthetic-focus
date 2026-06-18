@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Clock, Settings, Music } from "lucide-react";
+import { X, Clock, Settings, Music, Image } from "lucide-react";
 import type { SettingsData } from "../types";
 import NumberInput from "./ui/NumberInput";
 
@@ -114,6 +114,34 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               />
               auto start focus
             </label>
+          </div>
+
+          <hr className="border-none border-t border-white/10" />
+
+          {/* Section: Backgrounds */}
+          <div>
+            <div className="flex items-center gap-2 mb-3 text-white/70">
+              <Image size={16} />
+              <span className="text-xs font-semibold uppercase tracking-wider">
+                theme background
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { id: "city-dusk", name: "City Dusk" },
+                { id: "cozy-rain", name: "Cozy Rain" },
+                { id: "green-forest", name: "Green Forest" },
+              ].map((bg) => (
+                <button
+                  type="button"
+                  key={bg.id}
+                  onClick={() => handleChange("backgroundId", bg.id)}
+                  className={`rounded-lg p-3 text-xs text-center cursor-pointer transition-all duration-300 ${formData.backgroundId === bg.id ? "bg-white/10 border border-white font-semibold" : "bg-white/5 border border-white/10 font-normal hover:bg-white/10"}`}
+                >
+                  {bg.name}
+                </button>
+              ))}
+            </div>
           </div>
 
           <hr className="border-none border-t border-white/10" />
