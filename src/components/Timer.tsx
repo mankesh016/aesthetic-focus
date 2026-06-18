@@ -4,10 +4,11 @@ import { RotateCcw, Settings } from "lucide-react";
 
 interface TimerProps {
   settings: SettingsData;
+  onOpenSettings: () => void;
 }
 type Mode = "pomodoro" | "shortBreak" | "longBreak";
 
-export const Timer: React.FC<TimerProps> = ({ settings }) => {
+export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
   const [mode, setMode] = useState<Mode>("pomodoro");
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(settings.pomodoroTime * 60);
@@ -38,6 +39,13 @@ export const Timer: React.FC<TimerProps> = ({ settings }) => {
       }
     };
   }, [isRunning, mode]);
+
+  // Sync timer when settings change and timer is NOT running
+  useEffect(() => {
+    if (!isRunning) {
+      resetTimer(mode);
+    }
+  }, [settings.pomodoroTime, settings.shortBreakTime, settings.longBreakTime]);
 
   const resetTimer = (newMode = mode) => {
     setIsRunning(false);
@@ -111,7 +119,11 @@ export const Timer: React.FC<TimerProps> = ({ settings }) => {
         >
           <RotateCcw size={18} />
         </button>
-        <button className="glass-icon-btn" title="Open settings">
+        <button
+          onClick={onOpenSettings}
+          className="glass-icon-btn"
+          title="Open settings"
+        >
           <Settings size={18} />
         </button>
       </div>

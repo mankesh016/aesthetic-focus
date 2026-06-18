@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import bgImage from "./assets/city-dusk.png";
 import { UI_TEXT } from "./constants";
 import { SpotifyPlayer } from "./components/SpotifyPlayer";
 import { AmbientMixer } from "./components/AmbientMixer";
 import type { SettingsData } from "./types";
 import { Timer } from "./components/Timer";
+import { SettingsModal } from "./components/SettingsModal";
 
 const DEFAULT_SETTINGS: SettingsData = {
   pomodoroTime: 25,
@@ -17,6 +18,26 @@ const DEFAULT_SETTINGS: SettingsData = {
 
 function App() {
   const [settings, setSettings] = useState<SettingsData>(DEFAULT_SETTINGS);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  // Load settings from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("pomodoro-settings-v1");
+    if (saved) {
+      try {
+        setSettings({
+          ...DEFAULT_SETTINGS,
+          ...JSON.parse(saved),
+        });
+      } catch (e) {
+        console.error("Failed to parse settings:", e);
+      }
+    }
+  }, []);
+  const handleSaveSettings = (newSettings: SettingsData) => {
+    setSettings(newSettings);
+    localStorage.setItem("pomodoro-settings-v1", JSON.stringify(newSettings));
+  };
 
   return (
     <div className="relative w-screen h-screen flex justify-center items-center bg-cover bg-center">
@@ -37,13 +58,24 @@ function App() {
       </div>
 
       {/* timer block */}
-      <Timer settings={settings} />
+      <Timer
+        settings={settings}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+      />
 
       {/* spotify block */}
       <SpotifyPlayer playlistUrl={settings.spotifyUrl} />
 
       {/* ambient mixer */}
       <AmbientMixer />
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        settings={settings}
+        onSave={handleSaveSettings}
+      />
     </div>
   );
 }
