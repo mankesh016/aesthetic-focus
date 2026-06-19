@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { SettingsData } from "../types";
 import { RotateCcw, Settings } from "lucide-react";
 import { playSynthesizedAlarm } from "../utils/audio";
+import { DEFAULT_BREAK_QUOTES, DEFAULT_STOPPED_QUOTES } from "../constants";
 
 interface TimerProps {
   settings: SettingsData;
@@ -15,6 +16,40 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
   const [timeLeft, setTimeLeft] = useState(settings.pomodoroTime * 60);
 
   const timerRef = useRef<any>(null);
+  const [quote, setQuote] = useState("");
+
+  // Manage motivational quote selection and rotation
+  useEffect(() => {
+    const updateQuote = () => {
+      // Hide quote when focus timer is running to maintain deep focus
+      const isFocusRunning = isRunning && mode === "pomodoro";
+      if (isFocusRunning) {
+        setQuote("");
+        return;
+      }
+      let pool: string[] = DEFAULT_STOPPED_QUOTES;
+      if (isRunning) {
+        pool = DEFAULT_BREAK_QUOTES;
+      }
+      if (pool.length > 0) {
+        setQuote((prev) => {
+          const available = pool.filter((q) => q !== prev);
+          const activePool = available.length > 0 ? available : pool;
+          const randomIndex = Math.floor(Math.random() * activePool.length);
+          return activePool[randomIndex];
+        });
+      } else {
+        setQuote("");
+      }
+    };
+    updateQuote();
+
+    const isFocusRunning = isRunning && mode === "pomodoro";
+    if (isFocusRunning) return;
+    // Rotate every 20 seconds
+    const intervalId = setInterval(updateQuote, 20000);
+    return () => clearInterval(intervalId);
+  }, [isRunning, mode]);
 
   // Handle countdown
   useEffect(() => {
@@ -115,7 +150,7 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center animate-fade-in">
+    <div className="flex flex-col items-center animate-fade-in relative pb-22">
       {/* Tabs */}
       <div className="flex justify-around items-center gap-3 bg-black/20 p-2 rounded-full text-white/80">
         <button
@@ -139,7 +174,7 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
       </div>
 
       {/* Timer */}
-      <div className="text-[120px] font-semibold leading-none m-4 tabular-nums">
+      <div className="text-[120px] font-semibold leading-none m-4 tabular-nums [text-shadow:0_10px_20px_rgba(0,0,0,0.2)]">
         {formatTime()}
       </div>
 
@@ -147,7 +182,7 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
       <div className="flex justify-center items-center gap-3">
         <button
           onClick={toggleTimer}
-          className="glass-button active text-lg px-6 py-2 min-w-[100px]"
+          className="glass-button active text-lg px-6 py-2 min-w-25"
         >
           {isRunning ? "pause" : "start"}
         </button>
@@ -166,6 +201,18 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
         >
           <Settings size={18} />
         </button>
+      </div>
+
+      {/* Motivational Quote Container */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-120 max-w-[90vw] h-18 flex items-center justify-center">
+        {quote && (
+          <div
+            key={quote}
+            className="animate-fade-in font-hand text-[28px] font-medium text-center text-white/95 leading-normal [text-shadow:0_4px_10px_rgba(0,0,0,0.7)] px-5"
+          >
+            {quote}
+          </div>
+        )}
       </div>
     </div>
   );
