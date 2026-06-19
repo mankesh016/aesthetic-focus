@@ -1,0 +1,10 @@
+services:
+  aesthetic-focus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aesthetic-focus:latest
+    container_name: aesthetic-focus
+    ports:
+      - "8080:80"
+    restart: unless-stopped
