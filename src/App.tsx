@@ -5,6 +5,7 @@ import { AmbientMixer } from "./components/AmbientMixer";
 import type { SettingsData } from "./types";
 import { Timer } from "./components/Timer";
 import { SettingsModal } from "./components/SettingsModal";
+import { StickyNotes } from "./components/StickyNotes";
 
 import cityDusk from "./assets/city-dusk.png";
 import cozyRain from "./assets/cozy-rain.png";
@@ -88,6 +89,9 @@ function App() {
 
       {/* ambient mixer */}
       <AmbientMixer />
+
+      {/* sticky notes */}
+      <StickyNotes />
 
       {/* Settings Modal */}
       <SettingsModal

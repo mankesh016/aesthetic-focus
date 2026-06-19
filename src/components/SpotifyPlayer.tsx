@@ -18,7 +18,7 @@ export const SpotifyPlayer: React.FC<{ playlistUrl: string }> = ({
   };
   return (
     <div
-      className={`glass-panel flex flex-col fixed bottom-6 left-6 z-[50] overflow-hidden ${isOpen ? "w-[340px] h-[152px] rounded-2xl" : "w-[50px] h-[50px] rounded-[25px] border border-white/20 items-center justify-center"}`}
+      className={`glass-panel flex flex-col fixed bottom-6 left-6 z-50 overflow-hidden ${isOpen ? "w-85 h-38 rounded-2xl" : "w-12 h-12 rounded-[25px] border border-white/20 items-center justify-center  hover:scale-110 active:scale-95 transition-all"}`}
     >
       {isOpen ? (
         <div className="relative w-full h-full">
@@ -26,13 +26,13 @@ export const SpotifyPlayer: React.FC<{ playlistUrl: string }> = ({
             title="Spotify Player"
             data-testid="embed-iframe"
             src={getEmbedUrl(playlistUrl)}
-            className="w-full h-[152px]"
+            className="w-full h-38"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
           ></iframe>
           <button
             onClick={() => setIsOpen(false)}
-            className="absolute top-2 right-2 bg-black/60 border border-white/60 rounded-full w-6 h-6 flex items-center justify-center cursor-pointer z-[60]"
+            className="absolute top-2 right-2 bg-black/60 border border-white/60 rounded-full w-6 h-6 flex items-center justify-center cursor-pointer  hover:scale-110 active:scale-95 transition-all z-60"
             title="Close Spotify Player"
           >
             <ChevronDown size={16} />
@@ -41,7 +41,7 @@ export const SpotifyPlayer: React.FC<{ playlistUrl: string }> = ({
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center justify-center cursor-pointer"
+          className="flex items-center justify-center cursor-pointer p-100 opacity-70 hover:opacity-90"
           title="Open Spotify Player"
         >
           <Music size={22} />
