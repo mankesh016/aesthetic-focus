@@ -19,6 +19,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const [formData, setFormData] = useState<SettingsData>({ ...settings });
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setFormData({ ...settings });
+    }
+  }, [isOpen, settings]);
+
   if (!isOpen) return null;
 
   const handleChange = (key: keyof SettingsData, value: any) => {

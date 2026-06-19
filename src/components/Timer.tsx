@@ -49,6 +49,16 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
     }
   }, [settings.pomodoroTime, settings.shortBreakTime, settings.longBreakTime]);
 
+  // Update browser tab title
+  useEffect(() => {
+    const minutes = Math.floor(timeLeft / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (timeLeft % 60).toString().padStart(2, "0");
+    const modeLabel = mode === "pomodoro" ? "Focus" : "Break";
+    document.title = `${minutes}:${seconds} | ${modeLabel}`;
+  }, [timeLeft, mode]);
+
   const resetTimer = (newMode = mode) => {
     setIsRunning(false);
     setMode(newMode);
