@@ -22,6 +22,7 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             clearInterval(timerRef.current!);
+            handleTimerComplete();
             return 0;
           }
           return prev - 1;
@@ -56,6 +57,30 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
     if (newMode === "longBreak") mins = settings.longBreakTime;
 
     setTimeLeft(mins * 60);
+  };
+
+  const handleTimerComplete = () => {
+    setIsRunning(false);
+
+    // Auto switch modes
+    if (mode === "pomodoro") {
+      const nextMode = settings.shortBreakTime > 0 ? "shortBreak" : "longBreak";
+      setMode(nextMode);
+      setTimeLeft(
+        (nextMode === "shortBreak"
+          ? settings.shortBreakTime
+          : settings.longBreakTime) * 60,
+      );
+      if (settings.autoStartBreaks) {
+        setTimeout(() => setIsRunning(true), 1000);
+      }
+    } else {
+      setMode("pomodoro");
+      setTimeLeft(settings.pomodoroTime * 60);
+      if (settings.autoStartPomodoros) {
+        setTimeout(() => setIsRunning(true), 1000);
+      }
+    }
   };
 
   const handleModeChange = (newMode: Mode) => {
