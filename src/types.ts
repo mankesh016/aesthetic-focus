@@ -6,4 +6,6 @@ export interface SettingsData {
   autoStartPomodoros: boolean;
   backgroundId: string;
   spotifyUrl: string;
+  alarmSound: string;
+  alarmVolume: number;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { SettingsData } from "../types";
 import { RotateCcw, Settings } from "lucide-react";
+import { playSynthesizedAlarm } from "../utils/audio";
 
 interface TimerProps {
   settings: SettingsData;
@@ -61,7 +62,7 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
 
   const handleTimerComplete = () => {
     setIsRunning(false);
-
+    playAlarm();
     // Auto switch modes
     if (mode === "pomodoro") {
       const nextMode = settings.shortBreakTime > 0 ? "shortBreak" : "longBreak";
@@ -81,6 +82,10 @@ export const Timer: React.FC<TimerProps> = ({ settings, onOpenSettings }) => {
         setTimeout(() => setIsRunning(true), 1000);
       }
     }
+  };
+
+  const playAlarm = () => {
+    playSynthesizedAlarm(settings.alarmSound, settings.alarmVolume);
   };
 
   const handleModeChange = (newMode: Mode) => {

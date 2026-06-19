@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { X, Clock, Settings, Music, Image } from "lucide-react";
+import { X, Clock, Settings, Music, Image, Volume2 } from "lucide-react";
 import type { SettingsData } from "../types";
 import NumberInput from "./ui/NumberInput";
+import { playSynthesizedAlarm } from "../utils/audio";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -31,6 +32,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     e.preventDefault();
     onSave(formData);
     onClose();
+  };
+
+  // Preview an alarm sound
+  const playAlarmPreview = (soundName: string) => {
+    playSynthesizedAlarm(soundName, formData.alarmVolume);
   };
 
   return (
@@ -141,6 +147,52 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   {bg.name}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <hr className="border-none border-t border-white/10" />
+
+          {/* Section: Alarm Sounds */}
+          <div>
+            <div className="flex items-center gap-2 mb-3 text-white/70">
+              <Volume2 size={16} />
+              <span className="text-xs font-semibold uppercase tracking-wider">
+                alarm sound
+              </span>
+            </div>
+            <div className="flex gap-3 mb-3">
+              {["digital", "bell", "chimes"].map((sound) => (
+                <button
+                  type="button"
+                  key={sound}
+                  onClick={() => {
+                    handleChange("alarmSound", sound);
+                    playAlarmPreview(sound);
+                  }}
+                  className={`flex-grow border-none rounded-lg py-2 px-3 text-xs cursor-pointer transition-all duration-300 ${formData.alarmSound === sound ? "bg-white text-black font-semibold" : "bg-white/5 text-white font-normal"}`}
+                >
+                  {sound}
+                </button>
+              ))}
+            </div>
+            <div>
+              <div>
+                <div className="flex justify-between text-[11px] text-white/50 mb-1">
+                  <span>alarm volume</span>
+                  <span>{Math.round(formData.alarmVolume * 100)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={formData.alarmVolume}
+                  onChange={(e) =>
+                    handleChange("alarmVolume", parseFloat(e.target.value))
+                  }
+                  className="glass-range"
+                />
+              </div>
             </div>
           </div>
 

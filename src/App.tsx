@@ -18,6 +18,8 @@ const DEFAULT_SETTINGS: SettingsData = {
   autoStartPomodoros: false,
   backgroundId: "city-dusk",
   spotifyUrl: "https://open.spotify.com/playlist/4Zjli1P13J5mmSCD5iKAXK",
+  alarmSound: "digital",
+  alarmVolume: 0.5,
 };
 
 function App() {
