@@ -106,9 +106,9 @@ docker run -p 8080:80 aesthetic-focus
 ```
 aesthetic-focus/
 ├── public/                      # Static public assets
+|   └── backgrouns.png           # Background theme
 ├── src/
 │   ├── assets/
-│   │   └── backgrounds.png      # background theme
 │   ├── components/
 │   │   ├── ui/
 │   │   │   └── NumberInput.tsx  # Reusable number input component

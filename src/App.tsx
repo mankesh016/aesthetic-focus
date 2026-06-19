@@ -7,9 +7,9 @@ import { Timer } from "./components/Timer";
 import { SettingsModal } from "./components/SettingsModal";
 import { StickyNotes } from "./components/StickyNotes";
 
-import cityDusk from "./assets/city-dusk.png";
-import cozyRain from "./assets/cozy-rain.png";
-import greenForest from "./assets/green-forest.png";
+import cityDusk from "/city-dusk.png";
+import cozyRain from "/cozy-rain.png";
+import greenForest from "/green-forest.png";
 
 const DEFAULT_SETTINGS: SettingsData = {
   pomodoroTime: 25,
