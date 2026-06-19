@@ -9,3 +9,13 @@ export interface SettingsData {
   alarmSound: string;
   alarmVolume: number;
 }
+
+export type NoteColor = "yellow" | "pink" | "blue" | "green" | "purple";
+
+export interface StickyNote {
+  id: string;
+  text: string;
+  color: NoteColor;
+  isPinned: boolean;
+  createdAt: number;
+}

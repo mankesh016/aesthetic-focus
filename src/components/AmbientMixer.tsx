@@ -97,9 +97,9 @@ export const AmbientMixer: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-10 flex flex-col items-end">
+    <div className="fixed bottom-6 right-6 z-95 flex flex-col items-end">
       {isOpen && (
-        <div className="glass-panel w-[260px] p-5 mb-2 flex flex-col gap-4 animate-fade-in">
+        <div className="backdrop-blur-[12px] glass-panel w-65 p-5 mb-2 flex flex-col gap-4 animate-fade-in">
           <div className="flex justify-between items-center mb-1">
             <span className="text-[15px] font-semibold tracking-wider">
               Ambient Sounds
@@ -107,7 +107,7 @@ export const AmbientMixer: React.FC = () => {
             {isAnyPlaying && (
               <button
                 onClick={muteAll}
-                className="bg-transparent border-none text-white/80 cursor-pointer text-[11px] flex items-center gap-1 hover:text-white"
+                className="border-none text-white/80 cursor-pointer text-[11px] flex items-center gap-1 hover:text-white"
               >
                 <VolumeX size={12} /> mute all
               </button>
@@ -148,7 +148,7 @@ export const AmbientMixer: React.FC = () => {
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="glass-panel border border-white/20 flex items-center justify-center text-white cursor-pointer w-[50px] h-[50px] rounded-full"
+        className="glass-panel border border-white/20 flex items-center justify-center text-white cursor-pointer w-12 h-12 rounded-full"
         title="Ambient Mixer"
       >
         {isAnyPlaying ? (
